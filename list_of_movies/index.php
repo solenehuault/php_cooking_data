@@ -67,8 +67,9 @@
 				//Director most represented
 				$movie_director = $movie[title][label];
 				$director_movie = explode("-", $movie_director);
-				$ddd = $director_movie[count($director_movie)-1];
-				$director[$ddd] += 1;
+				$dm = $director_movie[count($director_movie)-1];
+				$director[$dm] += 1;
+				arsort($director);
 
 			}
 
@@ -78,7 +79,8 @@
 			echo "<p>".$before_2000." movies were released before 2000.";
 			echo "<p>The most recent film is '".$title_youngest."' released in ".$youngest.".</p>";
 			echo "<p>The oldest film is '".$title_eldest."' released in ".$eldest.".</p>";
-			echo "<p>The category most represented film is ".key($category).".</p>";
+			echo "<p>The most represented category is ".key($category).".</p>";
+			echo "<p>".key($director)." is the most present director in the top.</p>";
 			
 			print_r($director);
 			print_r($top[5]);
