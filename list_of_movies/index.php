@@ -18,6 +18,7 @@
 			$director = array();
 			$price = 0;
 			$rent = 0;
+			$monthly_release = array();
 
 		?>
 		<h2>Top 10</h2>
@@ -40,7 +41,7 @@
 
 				//Gravity rank
 				if ($title[label] == "Gravity") {
-					$rank_gravity = $i;
+					$rank_gravity = $i +1;
 				}
 
 				//Director of Lego movie
@@ -82,6 +83,10 @@
 				$director[$dm] += 1;
 				arsort($director);
 
+				//Biggest monthly release
+				$month_release = $year[1];
+				$monthly_release[$month_release] += 1;
+				arsort($monthly_release);
 			}
 		?>
 		</ol>
@@ -95,7 +100,7 @@
 			echo "<p>".key($director)." is the most present director in the top.</p>";
 			echo "<p>The cost of buying the top 10 film is up to $".$price.".</p>";
 			echo "<p>The cost of renting the top 10 film is up to $".$rent."</p>";
-			
+			echo "<p>Month with the most release: ".key($monthly_release)."</p>";	
 			print_r($top[5]);
 		?>
 	</body>
