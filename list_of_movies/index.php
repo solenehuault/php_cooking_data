@@ -10,15 +10,20 @@
 			$brut = json_decode($string, true);
 			$top = $brut["feed"]["entry"];
 
-			//print_r ($top);
+			$rank_gravity = 0;
 			echo "<ol>";
-			for ($i = 0 ; $i < 10 ; $i++) {
+			for ($i = 0 ; $i < count($top) ; $i++) {
 				$movie = $top[$i];
 				$title = $movie['im:name'];
-				echo "<li>".$title[label]."</li>";
+				if ($i < 10) {
+					echo "<li>".$title[label]."</li>";
+				}
+				if ($title[label] == "Gravity") {
+					$rank_gravity = $i;
+				}
 			}
 			echo "</ol>";
-
+			echo "<p>Gravity is ranked ".$rank_gravity.".</p>";
 			print_r($top[0]);
 			echo "<br />";
 			print_r($top[1]);
