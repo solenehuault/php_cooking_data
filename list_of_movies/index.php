@@ -15,6 +15,7 @@
 			$eldest = 2000;
 			$yougest = 2000;
 			$category = array();
+			$director = array();
 			echo "<ol>";
 
 			for ($i = 0 ; $i < count($top) ; $i++) {
@@ -63,6 +64,12 @@
 				$category[$category_name] += 1;
 				arsort($category);
 
+				//Director most represented
+				$movie_director = $movie[title][label];
+				$director_movie = explode("-", $movie_director);
+				$ddd = $director_movie[count($director_movie)-1];
+				$director[$ddd] += 1;
+
 			}
 
 			echo "</ol>";
@@ -72,7 +79,8 @@
 			echo "<p>The most recent film is '".$title_youngest."' released in ".$youngest.".</p>";
 			echo "<p>The oldest film is '".$title_eldest."' released in ".$eldest.".</p>";
 			echo "<p>The category most represented film is ".key($category).".</p>";
-
+			
+			print_r($director);
 			print_r($top[5]);
 		?>
 	</body>
