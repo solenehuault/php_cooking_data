@@ -12,14 +12,16 @@
 
 			//print_r ($top);
 			echo "<ol>";
-			for ($i = 0 ; $i < count($top) ; $i++) {
+			for ($i = 0 ; $i < 10 ; $i++) {
 				$movie = $top[$i];
-				$title = $movie[title];
-				echo "<li>";
-				print_r($title[label]);
-				echo "</li>";
+				$title = $movie['im:name'];
+				echo "<li>".$title[label]."</li>";
 			}
 			echo "</ol>";
+
+			print_r($top[0]);
+			echo "<br />";
+			print_r($top[1]);
 		?>
 	</body>
 </html>
