@@ -10,7 +10,6 @@
 			$brut = json_decode($string, true);
 			$top = $brut["feed"]["entry"];
 
-			$rank_gravity = 0;
 			echo "<ol>";
 			for ($i = 0 ; $i < count($top) ; $i++) {
 				$movie = $top[$i];
@@ -21,12 +20,17 @@
 				if ($title[label] == "Gravity") {
 					$rank_gravity = $i;
 				}
+				if ($title[label] == "The LEGO Movie") {
+					$rank_lego = $i;
+					$director_lego = $top[$rank_lego][title][label];
+					$dir = explode("-", $director_lego);
+				}
 			}
 			echo "</ol>";
 			echo "<p>Gravity is ranked ".$rank_gravity.".</p>";
-			print_r($top[0]);
-			echo "<br />";
-			print_r($top[1]);
+			print_r($top[$rank_lego]);
+			print_r($dir);
+			echo "<p>The directors of ".$dir[0]." are ".$dir[count($dir)-1].".</p>";
 		?>
 	</body>
 </html>
