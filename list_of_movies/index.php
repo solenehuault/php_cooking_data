@@ -5,7 +5,7 @@
 		<title>Cooking Data 2/2</title>
 	</head>
 	<body>
-		<h1>List of Movies</h1>
+		<h1>Top 100 movies of something...</h1>
 		<?php
 			$string = file_get_contents("films.json", FILE_USE_INCLUDE_PATH);
 			$brut = json_decode($string, true);
@@ -16,8 +16,13 @@
 			$yougest = 2000;
 			$category = array();
 			$director = array();
-			echo "<ol>";
+			$price = 0;
+			$rent = 0;
 
+		?>
+		<h2>Top 10</h2>
+		<ol>
+		<?php
 			for ($i = 0 ; $i < count($top) ; $i++) {
 				$movie = $top[$i];
 				$title = $movie['im:name'];
@@ -25,6 +30,12 @@
 				//Top ten
 				if ($i < 10) {
 					echo "<li>".$title[label]."</li>";
+
+					//Cost&Rent top 10
+					$movie_price = $movie['im:price'][attributes][amount];
+					$price += $movie_price;
+					$movie_rent = $movie['im:rentalPrice'][attributes][amount];
+					$rent += $movie_rent;
 				}
 
 				//Gravity rank
@@ -64,7 +75,7 @@
 				$category[$category_name] += 1;
 				arsort($category);
 
-				//Director most represented
+				//Director most present
 				$movie_director = $movie[title][label];
 				$director_movie = explode("-", $movie_director);
 				$dm = $director_movie[count($director_movie)-1];
@@ -72,8 +83,9 @@
 				arsort($director);
 
 			}
-
-			echo "</ol>";
+		?>
+		</ol>
+		<?php
 			echo "<p>Gravity is ranked ".$rank_gravity.".</p>";
 			echo "<p>The directors of '".$dir[0]."' are ".$dir[count($dir)-1].".</p>";
 			echo "<p>".$before_2000." movies were released before 2000.";
@@ -81,8 +93,9 @@
 			echo "<p>The oldest film is '".$title_eldest."' released in ".$eldest.".</p>";
 			echo "<p>The most represented category is ".key($category).".</p>";
 			echo "<p>".key($director)." is the most present director in the top.</p>";
+			echo "<p>The cost of buying the top 10 film is up to $".$price.".</p>";
+			echo "<p>The cost of renting the top 10 film is up to $".$rent."</p>";
 			
-			print_r($director);
 			print_r($top[5]);
 		?>
 	</body>
