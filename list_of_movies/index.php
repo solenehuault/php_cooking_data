@@ -36,7 +36,9 @@
 					$movie_price = $movie['im:price'][attributes][amount];
 					$price += $movie_price;
 					$movie_rent = $movie['im:rentalPrice'][attributes][amount];
-					$rent += $movie_rent;
+					if ($movie_rent) {
+						$rent += $movie_rent;
+					}
 				}
 
 				//Gravity rank
@@ -59,11 +61,11 @@
 				}
 
 				//Most young & old
-				if ($eldest > $year[0]) {
+				if ($eldest >= $year[0]) {
 					$eldest = $year[0];
 					$rank_eldest = $i;
 				}
-				if ($youngest < $year[0]) {
+				if ($youngest <= $year[0]) {
 					$youngest = $year[0];
 					$rank_youngest = $i;
 				}
@@ -74,23 +76,36 @@
 				$movie_category = $movie[category][attributes];
 				$category_name = $movie_category[term];
 				$category[$category_name] += 1;
-				arsort($category);
 
 				//Director most present
 				$movie_director = $movie[title][label];
 				$director_movie = explode("-", $movie_director);
 				$dm = $director_movie[count($director_movie)-1];
 				$director[$dm] += 1;
-				arsort($director);
 
 				//Biggest monthly release
 				$month_release = $year[1];
 				$monthly_release[$month_release] += 1;
-				arsort($monthly_release);
+
+				//Top 10 lowcost movie buy&rent
+				$name = $title[label];
+				$tab_buy[$name] = $movie_price;
+				if ($movie_rent) {
+					$tab_rent[$name] = $movie_rent;
+				}
 			}
 		?>
 		</ol>
 		<?php
+
+			arsort($category);
+			arsort($director);
+			arsort($monthly_release);
+			asort($tab_buy);
+			$tab_buy = array_slice($tab_buy, 0, 10);
+			asort($tab_rent);
+			$tab_rent = array_slice($tab_rent, 0, 10);
+			
 			echo "<p>Gravity is ranked ".$rank_gravity.".</p>";
 			echo "<p>The directors of '".$dir[0]."' are ".$dir[count($dir)-1].".</p>";
 			echo "<p>".$before_2000." movies were released before 2000.";
@@ -100,8 +115,24 @@
 			echo "<p>".key($director)." is the most present director in the top.</p>";
 			echo "<p>The cost of buying the top 10 film is up to $".$price.".</p>";
 			echo "<p>The cost of renting the top 10 film is up to $".$rent."</p>";
-			echo "<p>Month with the most release: ".key($monthly_release)."</p>";	
-			print_r($top[5]);
+			echo "<p>Month with the most release: ".key($monthly_release)."</p>";
+			
 		?>
+		<h2>Top 10 films lowcost to buy</h2>
+		<ol>
+		<?php
+			foreach($tab_buy as $movie => $price) {
+				echo "<li>".$movie."</li>";
+			}
+		?>
+		</ol>
+		<h2>Top 10 films lowcost to rent</h2>
+		<ol>
+		<?php
+			foreach ($tab_rent as $movie => $price) {
+				echo "<li>".$movie."</li>";
+			}
+		?>
+		</ol>
 	</body>
 </html>
